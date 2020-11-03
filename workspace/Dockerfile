@@ -30,7 +30,9 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
     # Change application source from deb.debian.org to aliyun source
     sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
     sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
-    sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list \
+    sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
+	add-apt-repository --remove ppa:ondrej/php \
+	#sed -i 's/deb http/deb \[trusted=yes\] http/' /etc/apt/sources.list.d/ondrej-ubuntu-php-bionic.list
 ;fi
 
 # Start as root
@@ -76,7 +78,8 @@ RUN set -xe; \
       # base image (https://github.com/Laradock/workspace).
       #
       # next lines are here because there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-      libzip-dev zip unzip \
+      zip unzip \
+	  # 删除libzip-dev，不安装
       # Install the zip extension
       php${LARADOCK_PHP_VERSION}-zip \
       # nasm
